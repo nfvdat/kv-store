@@ -8,18 +8,7 @@ use crate::config::META_PID;
 use crate::config::{PageId, PAGE_SIZE};
 use crate::freelist::FreeList;
 use crate::meta::Meta;
-
-pub struct PageData {
-    pub data: [u8; PAGE_SIZE],
-}
-
-impl PageData {
-    pub fn new() -> PageData {
-        PageData {
-            data: [0u8; PAGE_SIZE],
-        }
-    }
-}
+use crate::pagedata::PageData;
 
 struct DiskManager {
 }
@@ -27,12 +16,12 @@ struct DiskManager {
 impl DiskManager {
     fn read_page(file: &File, pid: PageId) -> Result<PageData> {
         let mut page = PageData::new();
-        file.read_exact_at(&mut page.data, PAGE_SIZE as u64 * pid)?;
+        file.read_exact_at(&mut page.data, PAGE_SIZE as u64 * pid as u64)?;
         Ok(page)
     }
 
     fn write_page(file: &File, pid: PageId, page: &PageData) -> Result<()> {
-        file.write_all_at(&page.data, PAGE_SIZE as u64 * pid)?;
+        file.write_all_at(&page.data, PAGE_SIZE as u64 * pid as u64)?;
         Ok(())
     }
 

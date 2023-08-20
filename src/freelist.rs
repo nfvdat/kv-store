@@ -1,5 +1,5 @@
 use crate::config::{PageId, MAX_NON_DATA_PID, PID_SIZE, USIZE_SIZE};
-use crate::disk::PageData;
+use crate::pagedata::PageData;
 
 // freelist manages the manages free and used pages.
 pub struct FreeList {
