@@ -9,7 +9,7 @@ use std::thread;
 use std::time::Instant;
 
 use skv::{Store, StoreConfig};
-use skv::Transaction;
+//use skv::Transaction;
 use skv::{Key, Value};
 
 const RAND_SEED: u64 = 2021;

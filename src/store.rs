@@ -698,14 +698,6 @@ impl Store {
     }
 
     ///
-    /// Lookup key in the store.
-    ///
-    // pub fn get(&self, key: &Key) -> Result<Option<Value>> {
-    //     let mut iter = self.range((Included(key), Included(key)));
-    //     Ok(iter.next().transpose()?.map(|kv| kv.1))
-    // }
-
-    ///
     /// Close store. Close data and WAL files and truncate WAL file.
     ///
     pub fn close(&self) -> Result<()> {

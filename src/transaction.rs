@@ -35,16 +35,6 @@ impl<'a> Transaction<'_> {
     }
 
     ///
-    /// Delay commit of transaction
-    ///
-    pub fn delay(&mut self) -> Result<()> {
-        anyhow::ensure!(self.status == TransactionStatus::InProgress);
-        // mark transaction as committed to prevent implicit rollback by destructor
-        self.status = TransactionStatus::Committed;
-        Ok(())
-    }
-
-    ///
     /// Rollback transaction undoing all changes
     ///
     pub fn rollback(&mut self) -> Result<()> {

@@ -1,4 +1,4 @@
-// PageId (u32) takes 8 bytes to store
+// PageId (u32) takes 4 bytes to store
 pub const PID_SIZE: usize = 4;
 // 8 KB
 pub const PAGE_SIZE: usize = 8192;

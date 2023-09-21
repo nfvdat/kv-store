@@ -15,15 +15,56 @@ pub struct Metadata {
 }
 
 impl Metadata {
-    pub fn pack(self) -> [u8; METADATA_SIZE] {
-        unsafe { std::mem::transmute::<Metadata, [u8; METADATA_SIZE]>(self) }
-    }
-    pub fn unpack(buf: &[u8]) -> Metadata {
-        unsafe {
-            std::mem::transmute::<[u8; METADATA_SIZE], Metadata>(
-                buf[0..METADATA_SIZE].try_into().unwrap(),
-            )
+    pub fn unpack(page: &[u8]) -> Metadata {
+        // unsafe {
+        //     std::mem::transmute::<[u8; METADATA_SIZE], Metadata>(
+        //         buf[0..METADATA_SIZE].try_into().unwrap(),
+        //     )
+        // }
+
+        let mut pos: usize = 0;
+
+        // unwrap is safe since this always returns Ok
+        let free = PageId::from_be_bytes(page[pos..pos + PID_SIZE].try_into().unwrap());
+        pos += PID_SIZE;
+
+        let size = PageId::from_be_bytes(page[pos..pos + PID_SIZE].try_into().unwrap());
+        pos += PID_SIZE;
+
+        let root = PageId::from_be_bytes(page[pos..pos + PID_SIZE].try_into().unwrap());
+        pos += PID_SIZE;
+
+        // u32
+        let height = PageId::from_be_bytes(page[pos..pos + 4].try_into().unwrap());
+        pos += 4;
+
+        Self {
+            free,
+            size,
+            root,
+            height,
         }
+    }
+
+    pub fn pack(self) -> [u8; METADATA_SIZE] {
+        // unsafe { std::mem::transmute::<Metadata, [u8; METADATA_SIZE]>(self) }
+        let mut page = [0u8; METADATA_SIZE];
+        let mut pos: usize = 0;
+
+        page[pos..pos + PID_SIZE].copy_from_slice(&self.free.to_be_bytes());
+        pos += PID_SIZE;
+
+        page[pos..pos + PID_SIZE].copy_from_slice(&self.size.to_be_bytes());
+        pos += PID_SIZE;
+
+        page[pos..pos + PID_SIZE].copy_from_slice(&self.root.to_be_bytes());
+        pos += PID_SIZE;
+
+        // u32
+        page[pos..pos + 4].copy_from_slice(&self.height.to_be_bytes());
+        pos += 4;
+
+        page
     }
 }
 

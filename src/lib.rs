@@ -8,5 +8,5 @@ mod transaction;
 mod store;
 
 pub use store::{Store, StoreConfig};
-pub use transaction::Transaction;
+//pub use transaction::Transaction;
 pub use config::{Key, Value};
