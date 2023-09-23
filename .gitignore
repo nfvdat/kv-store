@@ -2,4 +2,4 @@
 /Cargo.lock
 *.db
 *.log
-/tests/
+tests/
