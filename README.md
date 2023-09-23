@@ -1,10 +1,12 @@
-A simple persistent embedded key-value store built in Rust.
+## Overview
+
+A persistent embedded key-value store built in Rust.
 
 - Design: B-Trees, page cache, write-ahead log.
-- Supports ACID transactions with multiple-readers-single-writer concurrency protocol.
+- Supports ACID transactions with concurrency through multiple readers.
 - Simple `get/put/remove` interface. Iterators are WIP.
 
-#### Example Usage
+## Example Usage
 
 ```
 let store = open_store("test1.db", Some("test1.log"));
